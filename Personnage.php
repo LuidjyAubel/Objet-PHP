@@ -9,10 +9,13 @@ class Personnage
     private $_degats = 0;
 
 //méthode
-    public function afficherstat(){
-        print($this->_force." ");
-        print($this->_experience." ");
-        print( $this->_degats." ");
+    public function __construct($nom){
+        $this->_nom = $nom;
+        print("Le personnage : ".$nom);
+    }
+    public function afficherstat()
+    {
+        print( $this->_degats);
     }
      public function definirForce($force)
     {

@@ -12,6 +12,7 @@ $perso2->definirForce(10);
 $perso2->definirDegat(8);
 $perso2->definirXp(2);
 
+$perso1->__construct("Bob");
 print("perso2 stat :".$perso2->afficherstat());
 //$perso1->parler();
 //$perso1->afficherXp();
