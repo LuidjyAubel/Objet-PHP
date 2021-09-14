@@ -1,6 +1,6 @@
 <?php
 include "Personnage.php";
-print ("Jeu 2 Baston (la bagarre !!!!!!)<br>");
+print("<h1>Jeu 2 Baston (la bagarre !!!!!!)</h1><br>");
 $perso1 = new Personnage("bob");
 $perso2 = new Personnage("candice");
 //$perso3 = new Personnage();
@@ -12,7 +12,6 @@ $perso1->definirXp(5);
 $perso2->definirForce(10);
 $perso2->definirDegat(8);
 $perso2->definirXp(2);
-
 //$perso1->__construct("Bob");
 //print("perso2 stat :".$perso2->afficherstat());
 //$perso1->parler();
@@ -20,4 +19,4 @@ $perso2->definirXp(2);
 $perso1->frapper($perso2);
 $perso2->frapper($perso1);
 //print("perso2 stat :".$perso2->afficherstat());
-?>
+//$perso1->afficherstat();

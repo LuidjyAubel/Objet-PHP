@@ -1,3 +1,4 @@
+<link href="style.css" rel="stylesheet">
 <?php
 
 class Personnage
@@ -9,64 +10,72 @@ class Personnage
     private $_degats = 0;
 
 //méthode
-    public function __construct($nom,$force = 50,$degats = 1)
+    public function __construct($nom, $force = 50, $degats = 1)
     {
-        $this->_nom =  $nom;
+        $this->_nom = $nom;
         $this->_force = $force;
         $this->_degats = $degats;
         $this->_experience = 1;
-        print($nom. " à était créer<br>");
+        print("<p class='red'>Le personnage ".$nom . " à était créer !</p>");
     }
-    public function setnom($nom)
+    public function setnom($nom):Personnage
     {
-        if (is_string($nom))
-        {
+        if (is_string($nom)) {
             trigger_error('le nom doit etre du texte');
-            return;
-         }
+            return $this;
+        }
         $this->_nom = $nom;
     }
-    public function getnom()
+    public function getnom():string
     {
         return $this->_nom;
     }
-    public function setXP($xp)
+    public function setXP($xp):Personnage
     {
-        if (!is_int($xp)){
+        if (!is_int($xp)) {
             trigger_error('ce doit etre un chiffre');
-            return;
+            return $this;
         }
         $this->_experience = $xp;
     }
-    public function getXP()
+    public function getXP():int
     {
         return $this->_experience;
     }
-    public function getDegats()
+    public function getDegats():int
     {
-        return  $this->_degats;
+        return $this->_degats;
     }
-    public function setDegats($degats){
-        if (!is_int($degats)){
+    public function getForce():int
+    {
+        return $this->_force;
+    }
+    public function setDegats(int $degats):Personnage
+    {
+        if (!is_int($degats)) {
             trigger_error('ce doit etre un chiffre');
-            return;
+            return $this;
         }
         $this->_degats = $degats;
     }
-    public function afficherstat()
+    public function afficherstat() 
     {
-        print("nom : ".$this->_nom);
-        print( $this->_degats);
+        print("----------------------------------<br>");
+        print("nom : " . $this->getnom(). "<br>");
+        print("dehgats : ".$this->getDegats()."<br>");
+        print("XP : ".$this->getXP()."<br>");
+        print("force : ".$this->getForce()."<br>");
+        print("-----------------------------------<br>");
     }
-     public function definirForce($force)
+    public function definirForce(int $force)
     {
         $this->_force = $force;
     }
-    public function definirDegat($degat)
+    public function definirDegat(int $degat)
     {
         $this->_degats = $degat;
     }
-    public function definirXp($xp)
+    public function definirXp(int $xp)
     {
         $this->_experience = $xp;
     }
@@ -79,16 +88,22 @@ class Personnage
         $this->_experience++;
         return $this->_experience;
     }
-    public function afficherXp(){
-        print("Experience : ".$this->_experience);
+    public function afficherXp()
+    {
+        print("Experience : " . $this->_experience);
     }
-    public function __toString(){
+    public function __toString()
+    {
         return $this->getnom();
     }
-    public function frapper(Personnage $Victime)
+    public function frapper(Personnage $Victime):Personnage
     {
         $Victime->_degats = $Victime->_degats + $this->_force;
-        print($this ->getnom(). " à bruler vivant -> ".$Victime->getnom()." = ".$Victime->getDegats()."<br>");
+        $this->gagnerXp();
+        print($this->getnom() . " à bruler vivant -> " . $Victime->getnom() . " = " . $Victime->getDegats()." Experience : ".$this->getXP()."<br>"); 
+        $this->afficherstat();
+        $Victime->afficherstat();
+        return $this;
     }
 
 }
