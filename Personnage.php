@@ -13,6 +13,8 @@ class Personnage
     const FORCE_MOYENNE = 50;
     const FORCE_FORTE = 100;
 
+    private static $_textadire = "Prépare toi à mourir !";
+    private static $_nbrJ = 0;
 //méthode
     public function __construct($nom, $force = 50, $degats = 1)
     {
@@ -21,6 +23,7 @@ class Personnage
         $this->_degats = $degats;
         $this->_experience = 1;
         print("<p class='red'>Le personnage ".$nom . " à était créer !</p>");
+        self::$_nbrJ++;
     }
     public function setnom($nom):Personnage
     {
@@ -55,7 +58,7 @@ class Personnage
         return $this->_force;
     }
     public function setForce(int $force):Personnage{
-        if (is_int($force)){
+        if (!is_int($force)){
             trigger_error("erreur");
             return $this;
         }
@@ -82,6 +85,7 @@ class Personnage
     public function afficherstat() 
     {
         print("----------------------------------<br>");
+        print("Statistique : <br>");
         print("nom : " . $this->getnom(). "<br>");
         print("dehgats : ".$this->getDegats()."<br>");
         print("XP : ".$this->getXP()."<br>");
@@ -100,9 +104,9 @@ class Personnage
     {
         $this->_experience = $xp;
     }
-    public function parler()
+    public static function parler()
     {
-        print("Je suis un personnage<br>");
+        print("Je suis le personnage n°".self::$_nbrJ." ".self::$_textadire."<br>");
     }
     public function gagnerXp()
     {

@@ -6,9 +6,10 @@ function chargerClass($class){
 spl_autoload_register("chargerClass");
 print("<h1>Jeu 2 Baston (la bagarre !!!!!!)</h1>");
 $perso1 = new Personnage("bob");
+Personnage::parler();
 $perso2 = new Personnage("candice");
 //$perso3 = new Personnage();
-
+Personnage::parler();
 $perso1->definirForce(100);
 $perso1->definirDegat(10);
 $perso1->definirXp(5);
