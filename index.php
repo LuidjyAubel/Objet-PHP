@@ -1,6 +1,10 @@
 <?php
-include "Personnage.php";
-print("<h1>Jeu 2 Baston (la bagarre !!!!!!)</h1><br>");
+//include "Personnage.php";
+function chargerClass($class){
+ include $class.".php";
+}
+spl_autoload_register("chargerClass");
+print("<h1>Jeu 2 Baston (la bagarre !!!!!!)</h1>");
 $perso1 = new Personnage("bob");
 $perso2 = new Personnage("candice");
 //$perso3 = new Personnage();

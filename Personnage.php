@@ -9,6 +9,10 @@ class Personnage
     private $_experience = 1;
     private $_degats = 0;
 
+    const FORCE_FAIBLE = 30;
+    const FORCE_MOYENNE = 50;
+    const FORCE_FORTE = 100;
+
 //méthode
     public function __construct($nom, $force = 50, $degats = 1)
     {
@@ -49,6 +53,23 @@ class Personnage
     public function getForce():int
     {
         return $this->_force;
+    }
+    public function setForce(int $force):Personnage{
+        if (is_int($force)){
+            trigger_error("erreur");
+            return $this;
+        }
+        if ($force > 100){
+            trigger_error("error");
+            return $this;
+        }
+        if (is_array($force, array(self::FORCE_FAIBLE, self::FORCE_MOYENNE, self::FORCE_FORTE))){
+            $this->_force = $force;
+        }
+        else{
+            trigger_error('error +');
+        }
+        return $this;
     }
     public function setDegats(int $degats):Personnage
     {
