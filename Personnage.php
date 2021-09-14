@@ -9,12 +9,53 @@ class Personnage
     private $_degats = 0;
 
 //méthode
-    public function __construct($nom){
+    public function __construct($nom,$force = 50,$degats = 1)
+    {
+        $this->_nom =  $nom;
+        $this->_force = $force;
+        $this->_degats = $degats;
+        $this->_experience = 1;
+        print($nom. " à était créer<br>");
+    }
+    public function setnom($nom)
+    {
+        if (is_string($nom))
+        {
+            trigger_error('le nom doit etre du texte');
+            return;
+         }
         $this->_nom = $nom;
-        print("Le personnage : ".$nom);
+    }
+    public function getnom()
+    {
+        return $this->_nom;
+    }
+    public function setXP($xp)
+    {
+        if (!is_int($xp)){
+            trigger_error('ce doit etre un chiffre');
+            return;
+        }
+        $this->_experience = $xp;
+    }
+    public function getXP()
+    {
+        return $this->_experience;
+    }
+    public function getDegats()
+    {
+        return  $this->_degats;
+    }
+    public function setDegats($degats){
+        if (!is_int($degats)){
+            trigger_error('ce doit etre un chiffre');
+            return;
+        }
+        $this->_degats = $degats;
     }
     public function afficherstat()
     {
+        print("nom : ".$this->_nom);
         print( $this->_degats);
     }
      public function definirForce($force)
@@ -41,9 +82,13 @@ class Personnage
     public function afficherXp(){
         print("Experience : ".$this->_experience);
     }
-    public function frapper($Victime)
+    public function __toString(){
+        return $this->getnom();
+    }
+    public function frapper(Personnage $Victime)
     {
         $Victime->_degats = $Victime->_degats + $this->_force;
+        print($this ->getnom(). " à bruler vivant -> ".$Victime->getnom()." = ".$Victime->getDegats()."<br>");
     }
 
 }
