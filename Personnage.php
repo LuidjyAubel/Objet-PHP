@@ -4,10 +4,13 @@
 class Personnage
 {
 // les attributs et méthode ici
+    private $_id = 0;
     private $_nom = "Inconnu";
     private $_force = 50;
     private $_experience = 1;
     private $_degats = 0;
+    private $niveau = 0;
+
 
     const FORCE_FAIBLE = 30;
     const FORCE_MOYENNE = 50;
@@ -24,6 +27,30 @@ class Personnage
         $this->_experience = 1;
         print("<p class='red'>Le personnage ".$nom . " à était créer !</p>");
         self::$_nbrJ++;
+    }
+    public function setid (int $id):Personnage
+    {
+        if (!is_int($id)){
+            trigger_error("error");
+            return $this;
+         }
+         $this->_id = $id;
+    }
+    public function getid()
+    {
+        return $this->_id;
+    }
+    public function setniv ($niveau):Personnage
+    {
+     if (!is_int($niveau)){
+        trigger_error("error");
+        return $this;
+     }
+     $this->niveau = $niveau;
+    }
+    public function getniv():int
+    {
+        return $this->niveau;
     }
     public function setnom($nom):Personnage
     {

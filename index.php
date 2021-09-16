@@ -5,6 +5,7 @@ function chargerClass($class){
 }
 spl_autoload_register("chargerClass");
 print("<h1>Jeu 2 Baston (la bagarre !!!!!!)</h1>");
+
 $perso1 = new Personnage("bob");
 Personnage::parler();
 $perso2 = new Personnage("candice");
