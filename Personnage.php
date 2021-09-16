@@ -26,6 +26,7 @@ class Personnage
         foreach ($ligne as $key => $value) {
              $method = "set".ucfirst($key);
             if (method_exists($this, $method)){
+                //le dollar on appel la methode dynamiquement car il est dans la variable method 
                 $this->$method($value);
             }
         }
