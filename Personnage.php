@@ -1,169 +1,138 @@
-<link href="style.css" rel="stylesheet">
 <?php
 
 class Personnage
 {
-// les attributs et méthode ici
-    private $_id = 0;
-    private $_nom = "Inconnu";
+    private $_id;
+    private $_nom = 'Inconnu';
     private $_force = 50;
     private $_experience = 1;
     private $_degats = 0;
-    private $niveau = 0;
+    private $_niveau = 0;
 
-    const FORCE_FAIBLE = 30;
+    const FORCE_PETITE = 20;
     const FORCE_MOYENNE = 50;
-    const FORCE_FORTE = 100;
+    const FORCE_GRANDE = 80;
 
-    private static $_textadire = "Prépare toi à mourir !";
-    private static $_nbrJ = 0;
-//méthode
-    public function __construct(array $ligne)
-    {
+    private static $_texteAdire = 'DO U TOKIGN TO ME ? JE vais Te faire bobo !';
+    private static $nbrPlayer = 0;
+
+    public function __construct(array $ligne){
         $this->hydrate($ligne);
-        self::$_nbrJ++;
-        print("<p class='red'>Le personnage " . $ligne['nom'] . " à était créer !</p>");
-    }
-    public function hydrate(array $ligne)
-    {
-
-        $this->setnom($ligne['nom']);
-        $this->setForce( $ligne['force']);
-        $this->_degats = $ligne;
-        $this->_experience = $ligne;
-        $this->niveau = $ligne;
-        $this->_degats = $ligne;
-
+        self::$nbrPlayer++;
+        print('<br> Le perso "' . $ligne['nom'] . '" est créé<br>');
     }
 
-    public function setid(int $id): Personnage
-    {
-        if (!is_int($id)) {
-            trigger_error("error");
-            return $this;
+    public function hydrate(array $ligne){
+        $this->setNom($ligne['nom']);
+        $this->setForce((int)$ligne['force']);
+        $this->setDegats((int)$ligne['degats']);
+        $this->setExperience(1);
+    }
+
+    public function __toString():string{
+        return $this->getNom() . "(". $this->getDegats() .")";
+    }
+
+    public function setId(int $_id):Personnage {
+        if (!is_int($_id)){
+            trigger_error("ERROR ERROR ERROR !");
         }
-        $this->_id = $id;
+        $this->_id = $_id;
+        return $this;
     }
-    public function getid()
-    {
+
+    public function getId(){
         return $this->_id;
     }
-    public function setniv($niveau): Personnage
-    {
-        if (!is_int($niveau)) {
-            trigger_error("error");
-            return $this;
+
+    public function setNiveau($_niveau):Personnage {
+        if (!is_int($_niveau)){
+            trigger_error("niveau doit etre un chiffre !");
         }
-        $this->niveau = $niveau;
+        $this->_niveau = $_niveau;
+        return $this;
     }
-    public function getniv(): int
-    {
-        return $this->niveau;
+
+    public function getNiveau(){
+        return $this->_niveau;
     }
-    public function setnom($nom): Personnage
-    {
-        if (is_string($nom)) {
-            trigger_error('le nom doit etre du texte');
+
+    public function setNom(string $nom):Personnage{
+        if (!is_string($nom)){
+            trigger_error('Le nom d\'un personnage doit être un texte', E_USER_ERROR);
             return $this;
         }
         $this->_nom = $nom;
-    }
-    public function getnom(): string
-    {
-        return $this->_nom;
-    }
-    public function setXP($xp): Personnage
-    {
-        if (!is_int($xp)) {
-            trigger_error('ce doit etre un chiffre');
-            return $this;
-        }
-        $this->_experience = $xp;
-    }
-    public function getXP(): int
-    {
-        return $this->_experience;
-    }
-    public function getDegats(): int
-    {
-        return $this->_degats;
-    }
-    public function getForce(): int
-    {
-        return $this->_force;
-    }
-    public function setForce(int $force): Personnage
-    {
-        if (!is_int($force)) {
-            trigger_error("erreur");
-            return $this;
-        }
-        if ($force > 100) {
-            trigger_error("error");
-            return $this;
-        }
-        if (is_array($force, array(self::FORCE_FAIBLE, self::FORCE_MOYENNE, self::FORCE_FORTE))) {
-            $this->_force = $force;
-        } else {
-            trigger_error('error +');
-        }
-        return $this;
-    }
-    public function setDegats(int $degats): Personnage
-    {
-        if (!is_int($degats)) {
-            trigger_error('ce doit etre un chiffre');
-            return $this;
-        }
-        $this->_degats = $degats;
-    }
-    public function afficherstat()
-    {
-        print("----------------------------------<br>");
-        print("Statistique : <br>");
-        print("nom : " . $this->getnom() . "<br>");
-        print("dehgats : " . $this->getDegats() . "<br>");
-        print("XP : " . $this->getXP() . "<br>");
-        print("force : " . $this->getForce() . "<br>");
-        print("-----------------------------------<br>");
-    }
-    public function definirForce(int $force)
-    {
-        $this->_force = $force;
-    }
-    public function definirDegat(int $degat)
-    {
-        $this->_degats = $degat;
-    }
-    public function definirXp(int $xp)
-    {
-        $this->_experience = $xp;
-    }
-    public static function parler()
-    {
-        print("Je suis le personnage n°" . self::$_nbrJ . " " . self::$_textadire . "<br>");
-    }
-    public function gagnerXp()
-    {
-        $this->_experience++;
-        return $this->_experience;
-    }
-    public function afficherXp()
-    {
-        print("Experience : " . $this->_experience);
-    }
-    public function __toString()
-    {
-        return $this->getnom();
-    }
-    public function frapper(Personnage $Victime): Personnage
-    {
-        $Victime->_degats = $Victime->_degats + $this->_force;
-        $this->gagnerXp();
-        print($this->getnom() . " à bruler vivant -> " . $Victime->getnom() . " = " . $Victime->getDegats() . " Experience : " . $this->getXP() . "<br>");
-        $this->afficherstat();
-        $Victime->afficherstat();
         return $this;
     }
 
+    
+    public function getNom(){
+        return $this->_nom;
+    }
+
+    public function setForce($force):Personnage{
+        if (!is_int($force)){
+            trigger_error('La force d\'un personnage doit être un nombre entier', E_USER_ERROR);
+            return $this;
+        }
+        if ($force > 100){
+            trigger_error('La force d\'un personnage ne doit pas dépasser 100', E_USER_ERROR);
+            return $this;
+        }
+        // if (in_array($force, array(self::FORCE_PETITE, self::FORCE_MOYENNE, self::FORCE_GRANDE))){
+        //     $this->_force = $force;
+        // } else{
+        //     trigger_error('LA FORCE N\'EST PAS CORRECTE ', E_USER_ERROR);
+        // }
+        return $this;
+    }
+
+    public function getforce(){
+        return $this->_force;
+    }
+
+    public function setExperience(int $_experience):Personnage{
+        $this->_experience = $_experience;
+        return $this;
+    }
+
+    public function getExperience():Personnage{
+        $this->_experience++;
+        return $this;
+    }
+
+    public function afficheExperience(){
+        return $this->_experience;
+    }
+
+    public function setDegats($degats):Personnage{
+        if (!is_int($degats)){
+            trigger_error('Les dégats d\'un personnage doit être un nombre entier', E_USER_ERROR);
+            return $this;
+        }
+        $this->_degats = $degats;
+        return $this;
+    }
+
+    public function getDegats(){
+        return $this->_degats;
+    }
+
+    public static function parler(){
+        //print(self::$_texteAdire);// "JE vais Te faire bobo !");
+        print('<p> JE suis le n° '.self::$nbrPlayer.'</p>');
+    }
+
+    public function frapper(Personnage $adversaire):Personnage{
+        // $adversaire->_degats += $this->_force; idem a :
+            if(get_class($adversaire) == "Personnage"){
+                $adversaire->_degats += $this ->_force;
+                $this->getExperience();
+                print('<div class="action">'. $adversaire .'s\'est pris une mandale par ' . $this .' ==> Dégats de '. $adversaire . ' = '. $adversaire .'</div>');
+            } else {
+                print('|  !! ERROR !!  |');
+            }
+            return $this;
+    }
 }

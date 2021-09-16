@@ -15,7 +15,7 @@ try{
         $requete = $db->query('SELECT id, nom, `force`, degats, experience, niveau FROM perso;');
         while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
             $perso = new Personnage($ligne);
-            print('info'.$perso->getid(). " ".$perso->getnom()." ".$perso->getniv()." ".$perso->getForce()." ".$perso->getXP()." ".$perso->getDegats());
+            print('info'.$perso->getid(). " ".$perso->getnom()." ".$perso->getNiveau()." ".$perso->getForce()." ".$perso->getExperience()." ".$perso->getDegats());
         }
     }
 }catch (PDOException $e){
