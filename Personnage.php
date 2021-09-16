@@ -11,7 +11,6 @@ class Personnage
     private $_degats = 0;
     private $niveau = 0;
 
-
     const FORCE_FAIBLE = 30;
     const FORCE_MOYENNE = 50;
     const FORCE_FORTE = 100;
@@ -19,40 +18,49 @@ class Personnage
     private static $_textadire = "Prépare toi à mourir !";
     private static $_nbrJ = 0;
 //méthode
-    public function __construct($nom, $force = 50, $degats = 1)
+    public function __construct(array $ligne)
     {
-        $this->_nom = $nom;
-        $this->_force = $force;
-        $this->_degats = $degats;
-        $this->_experience = 1;
-        print("<p class='red'>Le personnage ".$nom . " à était créer !</p>");
+        $this->hydrate($ligne);
         self::$_nbrJ++;
+        print("<p class='red'>Le personnage " . $ligne['nom'] . " à était créer !</p>");
     }
-    public function setid (int $id):Personnage
+    public function hydrate(array $ligne)
     {
-        if (!is_int($id)){
+
+        $this->setnom($ligne['nom']);
+        $this->setForce( $ligne['force']);
+        $this->_degats = $ligne;
+        $this->_experience = $ligne;
+        $this->niveau = $ligne;
+        $this->_degats = $ligne;
+
+    }
+
+    public function setid(int $id): Personnage
+    {
+        if (!is_int($id)) {
             trigger_error("error");
             return $this;
-         }
-         $this->_id = $id;
+        }
+        $this->_id = $id;
     }
     public function getid()
     {
         return $this->_id;
     }
-    public function setniv ($niveau):Personnage
+    public function setniv($niveau): Personnage
     {
-     if (!is_int($niveau)){
-        trigger_error("error");
-        return $this;
-     }
-     $this->niveau = $niveau;
+        if (!is_int($niveau)) {
+            trigger_error("error");
+            return $this;
+        }
+        $this->niveau = $niveau;
     }
-    public function getniv():int
+    public function getniv(): int
     {
         return $this->niveau;
     }
-    public function setnom($nom):Personnage
+    public function setnom($nom): Personnage
     {
         if (is_string($nom)) {
             trigger_error('le nom doit etre du texte');
@@ -60,11 +68,11 @@ class Personnage
         }
         $this->_nom = $nom;
     }
-    public function getnom():string
+    public function getnom(): string
     {
         return $this->_nom;
     }
-    public function setXP($xp):Personnage
+    public function setXP($xp): Personnage
     {
         if (!is_int($xp)) {
             trigger_error('ce doit etre un chiffre');
@@ -72,36 +80,36 @@ class Personnage
         }
         $this->_experience = $xp;
     }
-    public function getXP():int
+    public function getXP(): int
     {
         return $this->_experience;
     }
-    public function getDegats():int
+    public function getDegats(): int
     {
         return $this->_degats;
     }
-    public function getForce():int
+    public function getForce(): int
     {
         return $this->_force;
     }
-    public function setForce(int $force):Personnage{
-        if (!is_int($force)){
+    public function setForce(int $force): Personnage
+    {
+        if (!is_int($force)) {
             trigger_error("erreur");
             return $this;
         }
-        if ($force > 100){
+        if ($force > 100) {
             trigger_error("error");
             return $this;
         }
-        if (is_array($force, array(self::FORCE_FAIBLE, self::FORCE_MOYENNE, self::FORCE_FORTE))){
+        if (is_array($force, array(self::FORCE_FAIBLE, self::FORCE_MOYENNE, self::FORCE_FORTE))) {
             $this->_force = $force;
-        }
-        else{
+        } else {
             trigger_error('error +');
         }
         return $this;
     }
-    public function setDegats(int $degats):Personnage
+    public function setDegats(int $degats): Personnage
     {
         if (!is_int($degats)) {
             trigger_error('ce doit etre un chiffre');
@@ -109,14 +117,14 @@ class Personnage
         }
         $this->_degats = $degats;
     }
-    public function afficherstat() 
+    public function afficherstat()
     {
         print("----------------------------------<br>");
         print("Statistique : <br>");
-        print("nom : " . $this->getnom(). "<br>");
-        print("dehgats : ".$this->getDegats()."<br>");
-        print("XP : ".$this->getXP()."<br>");
-        print("force : ".$this->getForce()."<br>");
+        print("nom : " . $this->getnom() . "<br>");
+        print("dehgats : " . $this->getDegats() . "<br>");
+        print("XP : " . $this->getXP() . "<br>");
+        print("force : " . $this->getForce() . "<br>");
         print("-----------------------------------<br>");
     }
     public function definirForce(int $force)
@@ -133,7 +141,7 @@ class Personnage
     }
     public static function parler()
     {
-        print("Je suis le personnage n°".self::$_nbrJ." ".self::$_textadire."<br>");
+        print("Je suis le personnage n°" . self::$_nbrJ . " " . self::$_textadire . "<br>");
     }
     public function gagnerXp()
     {
@@ -148,11 +156,11 @@ class Personnage
     {
         return $this->getnom();
     }
-    public function frapper(Personnage $Victime):Personnage
+    public function frapper(Personnage $Victime): Personnage
     {
         $Victime->_degats = $Victime->_degats + $this->_force;
         $this->gagnerXp();
-        print($this->getnom() . " à bruler vivant -> " . $Victime->getnom() . " = " . $Victime->getDegats()." Experience : ".$this->getXP()."<br>"); 
+        print($this->getnom() . " à bruler vivant -> " . $Victime->getnom() . " = " . $Victime->getDegats() . " Experience : " . $this->getXP() . "<br>");
         $this->afficherstat();
         $Victime->afficherstat();
         return $this;
