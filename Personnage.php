@@ -23,12 +23,13 @@ class Personnage
     }
 
     public function hydrate(array $ligne){
-        $this->setNom($ligne['nom']);
-        $this->setForce((int)$ligne['force']);
-        $this->setDegats((int)$ligne['degats']);
-        $this->setExperience(1);
+        foreach ($ligne as $key => $value) {
+             $method = "set".ucfirst($key);
+            if (method_exists($this, $method)){
+                $this->$method($value);
+            }
+        }
     }
-
     public function __toString():string{
         return $this->getNom() . "(". $this->getDegats() .")";
     }
