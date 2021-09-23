@@ -33,4 +33,15 @@ class PersonnageManager{
         }
         return $tabperso;
     }
-}
+     public function getOne(int $id)
+    {
+         $sth = $this->_db->query('SELECT id, nom, `force`, degats, experience, niveau FROM perso WHERE id = ? ;');
+         $sth->execute(array($id));
+         $ligne = $sth->etch()
+        $perso = new Personnage($ligne);
+         return $perso;
+         
+         
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }

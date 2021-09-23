@@ -18,6 +18,7 @@ try {
     foreach ($personnage as $personnages) {
         print('<br>' . $personnages->getNom()." (".$personnages->getforce().") ");
     }
+    $personnage = $PersonnageManager->getOne(2);
     /* $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 if ($db){
 print('base de donnée');
