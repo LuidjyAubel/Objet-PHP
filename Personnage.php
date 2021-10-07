@@ -1,17 +1,22 @@
 <?php
 
-class Personnage
+abstract class Personnage
 {
     private $_id;
     private $_nom = 'Inconnu';
-    private $_force = 50;
+    protected $_force = 50;
     private $_experience = 1;
     private $_degats = 0;
     private $_niveau = 0;
+    private $_classe = 3;
 
     const FORCE_PETITE = 20;
     const FORCE_MOYENNE = 50;
     const FORCE_GRANDE = 80;
+
+    const MAGICIEN = 1;
+    const ARCHER = 2;
+    const ZOMBIE = 3;
 
     private static $_texteAdire = 'DO U TOKIGN TO ME ? JE vais Te faire bobo !';
     private static $nbrPlayer = 0;
@@ -45,6 +50,13 @@ class Personnage
 
     public function getId(){
         return $this->_id;
+    }
+    public function getClasse(){
+        return $this->_classe;
+    }
+    public function setClasse($class)
+    {
+        $this->_classe = $class;
     }
 
     public function setNiveau($_niveau):Personnage {
@@ -126,15 +138,5 @@ class Personnage
         print('<p> JE suis le n° '.self::$nbrPlayer.'</p>');
     }
 
-    public function frapper(Personnage $adversaire):Personnage{
-        // $adversaire->_degats += $this->_force; idem a :
-            if(get_class($adversaire) == "Personnage"){
-                $adversaire->_degats += $this ->_force;
-                $this->getExperience();
-                print('<div class="action">'. $adversaire .'s\'est pris une mandale par ' . $this .' ==> Dégats de '. $adversaire . ' = '. $adversaire .'</div>');
-            } else {
-                print('|  !! ERROR !!  |');
-            }
-            return $this;
-    }
+   abstract public function frapper(Personnage $adversaire):Personnage;
 }

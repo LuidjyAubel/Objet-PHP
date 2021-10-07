@@ -26,22 +26,30 @@ class PersonnageManager{
      public function getList():array
     {
         $tabperso = array();
-        $requete = $this->_db->query('SELECT id, nom, `force`, degats, experience, niveau FROM perso;');
+        $requete = $this->_db->query('SELECT id, nom, `force`, degats, experience, niveau, classe FROM perso;');
         while ($ligne = $requete->fetch(PDO::FETCH_ASSOC)){
-            $perso = new Personnage($ligne);
+            switch ((int)$ligne['classe'] ) {
+                case Personnage::MAGICIEN:
+                    $perso = new Magicien($ligne);
+                    break;
+                case Personnage::ARCHER:
+                    $perso = new archer($ligne);
+                    break;
+                case Personnage::ZOMBIE:
+                    $perso = new zombie($ligne);
+                default:
+                    break;
+            }
+            //$perso = new Personnage($ligne);
             $tabperso[] = $perso;
         }
         return $tabperso;
     }
      public function getOne(int $id)
     {
-         $sth = $this->_db->query('SELECT id, nom, `force`, degats, experience, niveau FROM perso WHERE id = ? ;');
-         $sth->execute(array($id));
-         $ligne = $sth->etch()
-        $perso = new Personnage($ligne);
-         return $perso;
-         
-         
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
+         $sth = $this->_db->prepare('SELECT id, nom, `force`, degats, experience, niveau FROM perso WHERE id = ? ;');
+         $sth->bindParam(1,$id);
+         $ligne = $sth->fetch();
+ 
     }
+}
