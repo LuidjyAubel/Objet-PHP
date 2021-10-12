@@ -9,6 +9,7 @@ abstract class Personnage
     private $_degats = 0;
     private $_niveau = 0;
     private $_classe = 3;
+    private $_poche = 50;
 
     const FORCE_PETITE = 20;
     const FORCE_MOYENNE = 50;
@@ -18,7 +19,6 @@ abstract class Personnage
     const ARCHER = 2;
     const ZOMBIE = 3;
 
-    private static $_texteAdire = 'DO U TOKIGN TO ME ? JE vais Te faire bobo !';
     private static $nbrPlayer = 0;
 
     public function __construct(array $ligne){
@@ -27,7 +27,7 @@ abstract class Personnage
         print('<br> Le perso "' . $ligne['nom'] . '" est créé<br>');
     }
 
-    public function hydrate(array $ligne){
+    final public function hydrate(array $ligne){
         foreach ($ligne as $key => $value) {
              $method = "set".ucfirst($key);
             if (method_exists($this, $method)){
@@ -37,7 +37,7 @@ abstract class Personnage
         }
     }
     public function __toString():string{
-        return $this->getNom() . "(". $this->getDegats() .")";
+        return $this->getNom() . "(". $this->getDegats() .") ".$this->getPoche();
     }
 
     public function setId(int $_id):Personnage {
@@ -58,7 +58,13 @@ abstract class Personnage
     {
         $this->_classe = $class;
     }
-
+    public function getPoche(){
+        return $this->_poche;
+    }
+    public function setPoche($poche)
+    {
+        $this->_poche = $poche;
+    }
     public function setNiveau($_niveau):Personnage {
         if (!is_int($_niveau)){
             trigger_error("niveau doit etre un chiffre !");
@@ -115,6 +121,9 @@ abstract class Personnage
         $this->_experience++;
         return $this;
     }
+    public function getXP(){
+        return $this->_experience;
+    }
 
     public function afficheExperience(){
         return $this->_experience;
@@ -135,8 +144,11 @@ abstract class Personnage
 
     public static function parler(){
         //print(self::$_texteAdire);// "JE vais Te faire bobo !");
-        print('<p> JE suis le n° '.self::$nbrPlayer.'</p>');
+        print('<p> Je suis le n° '.self::$nbrPlayer.'</p>');
     }
-
+    public function insulter()
+    {
+        print('Tête de gland !<br>');
+    }
    abstract public function frapper(Personnage $adversaire):Personnage;
 }

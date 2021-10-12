@@ -9,17 +9,20 @@ try {
     $db = new PDO($host, $user, $passw);
     $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     $PersonnageManager = new PersonnageManager($db);
+    $combat = new Terraindejeu();
     $personnage = $PersonnageManager->getList();
     print("liste des personnages : ");
     foreach ($personnage as $personnages) {
-        print('<br>' . $personnages->getNom()." (".$personnages->getforce().") ");
+        print('<br>' . $personnages->getNom()." (".$personnages->getforce().") (".$personnages->getDegats().") (".$personnages->getNiveau().") (".$personnages->getXP().") ".$personnages->getPoche()." ");
         if ($personnages->getClasse() == 1){
-            print("MAGICIEN");
+            print("MAGICIEN <br>");
         }else if ($personnages->getClasse() == 2){
-            print("ARCHER");
+            print("ARCHER <br>");
         }else if($personnages->getClasse() == 3){
-            print("ZOMBIE");
+            print("ZOMBIE <br>");
         };
+        //print($personnages->insulter());
+        //$combat->lancerCombat($personnage->getOne(), $personnage->getOne());
     }
     //$personnage = $PersonnageManager->getOne(2);
     /* $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);

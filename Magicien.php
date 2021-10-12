@@ -8,5 +8,8 @@ class Magicien extends Personnage{
         return $this;
 
     }
+    public function insulter(){
+        print("Vous ne passerai pas !");
+}
 
 }

@@ -7,4 +7,7 @@ class Zombie extends Personnage {
         parent::frapper($persofrapper);
         return $this;
     }
+    public function insulter(){
+        print("GRRRRRRHHH !");
+}
 }
